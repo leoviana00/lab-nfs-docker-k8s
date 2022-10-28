@@ -1,0 +1,12 @@
+version: "3.6"
+services:
+  nfsServer:
+    privileged: true
+    restart: unless-stopped
+    environment:
+      - SHARED_DIRECTORY=/data/
+    image: itsthenetwork/nfs-server-alpine:12
+    ports:
+      - "2049:2049"
+    volumes:
+      - /data/:/data/

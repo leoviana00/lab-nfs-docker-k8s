@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nfs-web-site
+  namespace: nfs
+  name: nfs-web-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nfs-web-site
+  template:
+    metadata:
+      labels:
+        app: nfs-web-site
+    spec:
+      volumes:
+        - name: nfs-web-volume
+          persistentVolumeClaim:
+            claimName: demo-nfs-pvc-dynamic
+      containers:
+        - image: nginx
+          name: nfs-web-site
+          resources:
+            limits:
+              cpu: 1
+              memory: 100Mi
+          volumeMounts:
+            - name: nfs-web-volume
+              mountPath: /usr/share/nginx/html
